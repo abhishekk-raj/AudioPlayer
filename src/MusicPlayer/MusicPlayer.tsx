@@ -25,6 +25,31 @@ const MusicPlayer: React.FC<IMusicPlayerProps> = ({tracks}) => {
     const playerBG = `linear-gradient(rgba(${bgColor[0]}, ${bgColor[1]}, ${bgColor[2]}, 0.5), rgba(${bgColor[0]}, ${bgColor[1]}, ${bgColor[2]}, 0.5)), url(${image})`
     const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #fff), color-stop(${currentPercentage}, #777))`;
 
+    const startTimer = () => {
+        clearInterval(intervalRef.current);
+
+        intervalRef.current = window.setInterval(() => {
+            if (audioRef.current.ended) {
+                toNextTrack();
+            } else {
+                setTrackProgress(audioRef.current.currentTime);
+            }
+        }, 1000);
+    }
+
+    const onScrub = (value: any) => {
+        clearInterval(intervalRef.current);
+        audioRef.current.currentTime = value;
+        setTrackProgress(audioRef.current.currentTime);
+    }
+
+    const onScrubEnd = () => {
+        if (!isPlaying) {
+            setIsPlaying(true);
+        }
+        startTimer();
+    }
+
     const toPrevTrack = () => {
         if (trackIndex - 1 < 0) {
             setTrackIndex(tracks.length - 1);
@@ -41,63 +66,53 @@ const MusicPlayer: React.FC<IMusicPlayerProps> = ({tracks}) => {
         }
     }
 
+    const playTrack = () => {
+        const playPromise = audioRef.current.play();
+        playPromise.then(() => {
+            setIsPlaying(true);
+        }).catch(error => {
+            pauseTrack();
+            setTimeout(() => {
+                playTrack();
+            }, 1000);
+        });
+    }
+
+    const pauseTrack = () => {
+        audioRef.current.pause()
+        setIsPlaying(false);
+    }
+
     useEffect(() => {
         if (isPlaying) {
-            audioRef.current.play();
+            playTrack();
             startTimer();
         } else {
             clearInterval(intervalRef.current);
-            audioRef.current.pause();
+            pauseTrack();
         }
     }, [isPlaying]);
 
     useEffect(() => {
         return () => {
-            audioRef.current.pause();
+            pauseTrack();
             clearInterval(intervalRef.current);
         }
     }, []);
 
     useEffect(() => {
-        audioRef.current.pause();
+        pauseTrack();
 
         audioRef.current = new Audio(audioSrc);
         setTrackProgress(audioRef.current.currentTime);
 
         if (isReady.current) {
-            audioRef.current.play();
-            setIsPlaying(true);
+            playTrack();
             startTimer();
+        } else {
+            isReady.current = true;
         }
     }, [trackIndex]);
-
-    const startTimer = () => {
-        // Clear any timers already running
-        clearInterval(intervalRef.current);
-
-        intervalRef.current = window.setInterval(() => {
-            if (audioRef.current.ended) {
-                toNextTrack();
-            } else {
-                setTrackProgress(audioRef.current.currentTime);
-            }
-        }, 1000);
-    }
-
-    const onScrub = (value: any) => {
-        // Clear any timers already running
-        clearInterval(intervalRef.current);
-        audioRef.current.currentTime = value;
-        setTrackProgress(audioRef.current.currentTime);
-    }
-
-    const onScrubEnd = () => {
-        // If not already playing, start
-        if (!isPlaying) {
-            setIsPlaying(true);
-        }
-        startTimer();
-    }
 
     return (
         <div className='musicPlayer' style={{backgroundImage: `${playerBG}`}}>
@@ -117,7 +132,7 @@ const MusicPlayer: React.FC<IMusicPlayerProps> = ({tracks}) => {
                     onMouseUp={onScrubEnd}
                     onKeyUp={onScrubEnd}
                     className="seekSlider"
-                    style={{ background: trackStyling }}
+                    style={{background: trackStyling}}
                 />
             </div>
 
