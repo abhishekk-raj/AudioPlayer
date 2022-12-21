@@ -1,11 +1,12 @@
 import React from 'react';
 
 import './App.scss';
+import MusicPlayer from "./MusicPlayer/MusicPlayer";
 
 function App() {
     return (
         <div className="App">
-            Audio Player
+            <MusicPlayer/>
         </div>
     );
 }
