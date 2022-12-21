@@ -23,4 +23,4 @@ This application is created to mock a custom audio player with some sample free 
 
 ## Project Preview
 
-[To preview the project click here]()
+[To preview the project click here](https://audio-player-delta.vercel.app)
