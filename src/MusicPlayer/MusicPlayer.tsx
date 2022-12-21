@@ -5,6 +5,7 @@ import {faBackward, faForward, faPauseCircle, faPlayCircle} from '@fortawesome/f
 import './MusicPlayer.scss';
 import {IMusicPlayerProps} from "../models/music-player.props";
 import {convertToRGB} from "../shared/convertToRGB.method";
+import Backdrop from "./Backdrop";
 
 const MusicPlayer: React.FC<IMusicPlayerProps> = ({tracks}) => {
     const [trackIndex, setTrackIndex] = useState(0);
@@ -131,6 +132,11 @@ const MusicPlayer: React.FC<IMusicPlayerProps> = ({tracks}) => {
                     <FontAwesomeIcon icon={faForward} size="2x"/>
                 </div>
             </div>
+            <Backdrop
+                trackIndex={trackIndex}
+                activeColor={color}
+                isPlaying={isPlaying}
+            />
         </div>
     );
 }

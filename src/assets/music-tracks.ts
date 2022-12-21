@@ -1,5 +1,19 @@
 export const musicTracks = [
     {
+        title: "Music box white Christmas",
+        artist: "Quick Sound",
+        color: "#00873E",
+        image: "https://images.pexels.com/photos/250177/pexels-photo-250177.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
+        audioSrc: "https://quicksounds.com/uploads/tracks/599522883_346981382_2088599616.mp3"
+    },
+    {
+        title: "Merry Christmas",
+        artist: "Quick Sound",
+        color: "#EBBB5A",
+        image: "https://images.pexels.com/photos/1656564/pexels-photo-1656564.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=250&w=250",
+        audioSrc: "https://quicksounds.com/uploads/tracks/990442331_1771754036_30936103.mp3"
+    },
+    {
         title: "Night Owl",
         artist: "Broke For Free",
         color: "#00aeb0",

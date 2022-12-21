@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
 
+:root {
+  --active-color: #CDCDE0;
+}
+
 body {
-  background-color: #CDCDE0;
-  transition: background-color .5s;
+  background-color: var(--active-color);
+  transition: background 0.4s ease;
   font-family: 'PT Sans Narrow', sans-serif;
 }
 
@@ -11,4 +15,28 @@ body {
   height: calc(100vh - 1rem);
   align-items: center;
   justify-content: center;
+}
+
+.colorBackdrop {
+  background: linear-gradient(45deg, var(--active-color) 20%, transparent 100%)
+  no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.colorBackdrop.playing {
+  animation: colorChange 20s alternate infinite;
+}
+
+@keyframes colorChange {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
 }
