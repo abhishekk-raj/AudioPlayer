@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Gemstones&display=swap');
 
 :root {
   --active-color: #CDCDE0;
@@ -14,7 +15,8 @@ body {
   display: flex;
   height: calc(100vh - 1rem);
   align-items: center;
-  justify-content: center;
+  //justify-content: center;
+  flex-direction: column;
 }
 
 .colorBackdrop {
@@ -38,5 +40,24 @@ body {
   }
   to {
     filter: hue-rotate(360deg);
+  }
+}
+
+.merryChristmas {
+  font-family: 'Rubik Gemstones', cursive;
+  font-size: 6rem;
+  color: transparent;
+  animation: effect 2s linear infinite;
+}
+
+@keyframes effect {
+  0% {
+    background: linear-gradient(#edabab, #F44336);
+    -webkit-background-clip: text;
+  }
+
+  100% {
+    background: linear-gradient(#ffffff, #ffffff);
+    -webkit-background-clip: text;
   }
 }
